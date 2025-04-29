@@ -1,0 +1,464 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import { Shirt, Clock, ConciergeBell, Waves, Car, Briefcase, Bike, Umbrella, Sun, Coffee, Snowflake, Bath, Tv, LockKeyhole, Phone, Wifi, BatteryCharging } from 'lucide-react';
+
+const canaliTV = Array.from({ length: 40 }, (_, idx) => ({
+  numero: idx + 1,
+  nome: `Canale ${idx + 1}`,
+  lingua: ['Italiano', 'Inglese', 'Tedesco'][idx % 3],
+}));
+
+
+export default function Home() {
+  const [openServiceCamera, setOpenServiceCamera] = useState(null);
+  const [openServiceHotel, setOpenServiceHotel] = useState(null);
+
+const translations = {
+  it: {
+    camera: "Servizi in Camera",
+    hotel: "Servizi dell'Hotel",
+    tv: "Elenco Canali TV",
+    contact: "Contatti"
+  },
+  en: {
+    camera: "Room Services",
+    hotel: "Hotel Services",
+    tv: "TV Channels List",
+    contact: "Contact"
+  },
+  de: {
+    camera: "Zimmerausstattung",
+    hotel: "Hoteldienstleistungen",
+    tv: "TV Senderliste",
+    contact: "Kontakt"
+  }
+};
+
+const [lang, setLang] = useState('it');
+
+useEffect(() => {
+  const browserLang = navigator.language.slice(0, 2);
+  if (['it', 'en', 'de'].includes(browserLang)) {
+    setLang(browserLang);
+  }
+}, []);
+
+const serviziHotel = [
+  {
+    nome: 'Orario Pasti',
+    icona: <Coffee size={18} />,
+    dettagli: {
+      it: (
+        <div>
+          <p>Il servizio ristorazione è disponibile ai seguenti orari:</p>
+          <p><strong>Colazione:</strong> 7:30 – 10:30</p>
+          <p><strong>Pranzo:</strong> 12:30 – 13:30</p>
+          <p><strong>Cena:</strong> 19:30 – 20:30</p>
+        </div>
+      ),
+      en: (
+        <div>
+          <p>The restaurant service is available at the following times:</p>
+          <p><strong>Breakfast:</strong> 7:30 – 10:30</p>
+          <p><strong>Lunch:</strong> 12:30 – 13:30</p>
+          <p><strong>Dinner:</strong> 19:30 – 20:30</p>
+        </div>
+      ),
+      de: (
+        <div>
+          <p>Das Restaurant ist zu folgenden Zeiten geöffnet:</p>
+          <p><strong>Frühstück:</strong> 7:30 – 10:30</p>
+          <p><strong>Mittagessen:</strong> 12:30 – 13:30</p>
+          <p><strong>Abendessen:</strong> 19:30 – 20:30</p>
+        </div>
+      )
+    }
+    },
+  {
+    nome: 'Asciugamani da spiaggia',
+    icona: <Sun size={18} />,
+    dettagli: {
+      it: (
+        <div>
+          <p>Sono disponibili presso la Reception, presentando i buoni che vi sono stati consegnati al check-in. È possibile cambiarli una volta al giorno, riconsegnando l’asciugamano usato in Reception.</p>
+          <p className="mt-4 font-semibold">Uso dei lettini in piscina</p>
+<p>Per rispetto di tutti gli ospiti, vi chiediamo gentilmente di non riservare i lettini lasciando gli asciugamani se non siete presenti.</p>
+<p>La Direzione si riserva, in casi eccezionali, il diritto di rimuovere gli asciugamani utilizzati in modo continuativo per prenotare i lettini.</p>
+        </div>
+      ),
+      en: (
+        <div>
+          <p>Available at the reception by showing the voucher you received at check-in. Towels can be exchanged once per day by returning the used one.</p>
+          <p className="mt-4 font-semibold">Use of pool sunbeds</p>
+<p>To respect all guests, please do not reserve sunbeds with towels if you are not present.</p>
+<p>The management reserves the right, in exceptional cases, to remove towels used continuously to reserve sunbeds.</p>
+        </div>
+      ),
+      de: (
+        <div>
+          <p>Erhältlich an der Rezeption gegen Vorlage des beim Check-in erhaltenen Gutscheins. Einmal täglich kann das benutzte Handtuch ausgetauscht werden.</p>
+          <p className="mt-4 font-semibold">Benutzung der Poolliegen</p>
+<p>Bitte reservieren Sie keine Liegen mit Handtüchern, wenn Sie nicht anwesend sind, um Rücksicht auf andere Gäste zu nehmen.</p>
+<p>Die Hotelleitung behält sich in Ausnahmefällen das Recht vor, Handtücher zu entfernen, die dauerhaft zum Reservieren von Liegen verwendet werden.</p>
+        </div>
+      )
+    }
+  },
+  {
+    nome: 'Orario Check-in e Check-out',
+    icona: <Clock size={18} />,
+    dettagli: {
+      it: (
+        <div>
+          <h3 className="font-semibold">Arrivo e check-in</h3>
+          <p>Le camere saranno a tua completa disposizione a partire dalle 14:00, ma facciamo il possibile per consegnarle in anticipo.</p>
+          <h3 className="font-semibold mt-2">Partenza e check-out</h3>
+          <p>Il check-out va effettuato entro le 10:00, così da permetterci di preparare al meglio la stanza per gli ospiti successivi.</p>
+        </div>
+      ),
+      en: (
+        <div>
+          <h3 className="font-semibold">Arrival and Check-in</h3>
+          <p>Rooms are available from 2:00 PM, but we do our best to make them ready earlier.</p>
+          <h3 className="font-semibold mt-2">Departure and Check-out</h3>
+          <p>Check-out must be completed by 10:00 AM so we can prepare the room for the next guests.</p>
+        </div>
+      ),
+      de: (
+        <div>
+          <h3 className="font-semibold">Anreise und Check-in</h3>
+          <p>Die Zimmer stehen ab 14:00 Uhr zur Verfügung, wir bemühen uns jedoch, sie früher bereitzustellen.</p>
+          <h3 className="font-semibold mt-2">Abreise und Check-out</h3>
+          <p>Der Check-out muss bis 10:00 Uhr erfolgen, damit wir das Zimmer für die nächsten Gäste vorbereiten können.</p>
+        </div>
+      )
+    }
+  },
+  {
+    nome: 'Lavanderia',
+    icona: <Shirt size={18} />,
+    dettagli: {
+      it: 'Per usufruire del servizio lavanderia consegnare al personale delle pulizie, oppure contattare la reception (9). La biancheria pulita verrà restituita il giorno successivo.',
+      en: 'Sunshade and sunbeds included from the day of arrival until the day before departure.',
+      de: 'Sonnenschirm und Liegen sind vom Anreisetag bis zum Tag vor der Abreise inbegriffen.'
+    }
+  },
+  {
+    nome: 'Servizio in camera',
+    icona: <ConciergeBell size={18} />,
+    dettagli: {
+      it: 'Servizio in camera 24 ore su 24 chiamando la reception al numero 9. Il costo del servizio è di Euro 7.',
+      en: 'Room service is available 24 hours a day by calling reception at number 9. The service costs €7.',
+      de: 'Zimmerservice rund um die Uhr über die Rezeption (9). Der Service kostet 7 €.'
+    }
+  },
+  {
+    nome: 'Piscina esterna',
+    icona: <Waves size={18} />,
+    dettagli: {
+      it: 'La piscina è aperta dalle 7:30 alle 19:00. Vi preghiamo di non occupare i lettini con gli asciugamani quando non presenti.',
+      en: 'The pool is open from 7:30 AM to 7:00 PM. Please do not reserve sunbeds with towels if you are not present.',
+      de: 'Der Pool ist von 7:30 bis 19:00 Uhr geöffnet. Bitte keine Liegen mit Handtüchern belegen, wenn Sie nicht anwesend sind.'
+    }
+  },
+  {
+    nome: 'Garage',
+    icona: <Car size={18} />,
+    dettagli: {
+      it: 'Servizio parcheggio e portabagagli 24 ore su 24. Per accedere al garage rivolgersi alla reception. Per evitare inutili tempi di attesa vi preghiamo di chiedere l\'auto con almeno 5 minuti di anticipo.',
+      en: 'Valet and luggage service available 24/7. To access the garage, contact reception. To avoid waiting times, please request your car at least 5 minutes in advance.',
+      de: 'Park- und Gepäckservice rund um die Uhr. Wenden Sie sich an die Rezeption, um Zugang zur Garage zu erhalten. Um Wartezeiten zu vermeiden, bitten wir Sie, das Auto mindestens 5 Minuten vorher anzufordern.'
+    }
+  },
+  {
+    nome: 'Servizio bagagli',
+    icona: <Briefcase size={18} />,
+    dettagli: {
+      it: 'Assistenza bagagli disponibile alla reception 24 ore su 24. Contattare la reception (9).',
+      en: 'Luggage assistance available at the reception 24/7. Contact the reception (9).',
+      de: 'Gepäckservice rund um die Uhr an der Rezeption verfügbar. Rezeption anrufen (9).'
+    }
+  },
+  {
+    nome: 'Noleggio Golf kart e biciclette',
+    icona: <Bike size={18} />,
+    dettagli: {
+      it: `L'hotel mette a disposizione dei propri clienti biciclette a noleggio gratuito. È possibile richiedere il lucchetto per la bici alla reception. Non vengono accettate prenotazioni. Le golf kart sono gratuite la prima ora, dalle ore successive €20 all'ora. Non sono accettate prenotazioni.`,
+      en: 'The hotel offers bicycles for free rental. You can request a bike lock at the reception. Reservations are not accepted. Golf carts are free for the first hour, then €20/hour. Reservations are not accepted.',
+      de: 'Das Hotel bietet kostenlose Fahrräder zur Miete an. Ein Fahrradschloss kann an der Rezeption angefragt werden. Reservierungen sind nicht möglich. Golfkarts sind in der ersten Stunde kostenlos, danach 20 € pro Stunde.'
+    }
+  },
+  {
+    nome: 'Servizio in spiaggia',
+    icona: <Umbrella size={18} />,
+    dettagli: {
+      it: 'Ombrellone e lettini inclusi nel soggiorno dal giorno di arrivo al giorno prima della partenza.',
+      en: 'Sunshade and sunbeds included from the day of arrival until the day before departure.',
+      de: 'Sonnenschirm und Liegen sind vom Anreisetag bis zum Tag vor der Abreise inbegriffen.'
+    }
+  },
+  {
+    nome: 'Solarium naturale',
+    icona: <Sun size={18} />,
+    dettagli: {
+      it: 'Area solarium naturale con vista mare.',
+      en: 'Natural solarium area with sea view.',
+      de: 'Natürlicher Solariumbereich mit Meerblick.'
+    }
+  }
+];
+const Icon = ({ children }) => <span className="inline-block mr-2 align-middle">{children}</span>;
+
+const serviziCamera = [
+  {
+    nome: 'Frigobar',
+    icona: <Coffee size={18} />, 
+    dettagli: {
+      it: (
+        <div>
+          <p>Minibar rifornito quotidianamente con snack e bevande.</p>
+          <p className="mt-2 font-semibold">Listino Prezzi:</p>
+          <table className="table-auto mt-2 text-sm">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border px-2 py-1">Prodotto</th>
+                <th className="border px-2 py-1">Prezzo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td className="border px-2 py-1">Coca Cola</td><td className="border px-2 py-1">€2,50</td></tr>
+              <tr><td className="border px-2 py-1">Fanta</td><td className="border px-2 py-1">€2,50</td></tr>
+              <tr><td className="border px-2 py-1">Succo di frutta</td><td className="border px-2 py-1">€3,00</td></tr>
+              <tr><td className="border px-2 py-1">Prosecco Canevel</td><td className="border px-2 py-1">€10,00</td></tr>
+              <tr><td className="border px-2 py-1">Acqua</td><td className="border px-2 py-1">€1,50</td></tr>
+              <tr><td className="border px-2 py-1">Beck's</td><td className="border px-2 py-1">€3,50</td></tr>
+            </tbody>
+          </table>
+        </div>
+      ),
+      en: (
+        <div>
+          <p>Minibar restocked daily with snacks and beverages.</p>
+          <p className="mt-2 font-semibold">Price List:</p>
+          <table className="table-auto mt-2 text-sm">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border px-2 py-1">Product</th>
+                <th className="border px-2 py-1">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td className="border px-2 py-1">Coca Cola</td><td className="border px-2 py-1">€2.50</td></tr>
+              <tr><td className="border px-2 py-1">Fanta</td><td className="border px-2 py-1">€2.50</td></tr>
+              <tr><td className="border px-2 py-1">Fruit Juice</td><td className="border px-2 py-1">€3.00</td></tr>
+              <tr><td className="border px-2 py-1">Prosecco Canevel</td><td className="border px-2 py-1">€10.00</td></tr>
+              <tr><td className="border px-2 py-1">Water</td><td className="border px-2 py-1">€1.50</td></tr>
+              <tr><td className="border px-2 py-1">Beck's</td><td className="border px-2 py-1">€3.50</td></tr>
+            </tbody>
+          </table>
+        </div>
+      ),
+      de: (
+        <div>
+          <p>Minibar täglich mit Snacks und Getränken aufgefüllt.</p>
+          <p className="mt-2 font-semibold">Preisliste:</p>
+          <table className="table-auto mt-2 text-sm">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border px-2 py-1">Produkt</th>
+                <th className="border px-2 py-1">Preis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td className="border px-2 py-1">Coca Cola</td><td className="border px-2 py-1">€2,50</td></tr>
+              <tr><td className="border px-2 py-1">Fanta</td><td className="border px-2 py-1">€2,50</td></tr>
+              <tr><td className="border px-2 py-1">Fruchtsaft</td><td className="border px-2 py-1">€3,00</td></tr>
+              <tr><td className="border px-2 py-1">Prosecco Canevel</td><td className="border px-2 py-1">€10,00</td></tr>
+              <tr><td className="border px-2 py-1">Wasser</td><td className="border px-2 py-1">€1,50</td></tr>
+              <tr><td className="border px-2 py-1">Beck's</td><td className="border px-2 py-1">€3,50</td></tr>
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+  },
+  {
+    nome: 'Cialde caffè',
+    icona: <Coffee size={18} />,
+    dettagli: {
+      it: <div><p>Macchina del caffè con cialde incluse in ogni camera.</p><img src="/cialde.jpg" alt="Istruzioni macchina caffè" className="mt-3 max-w-full border rounded" /></div>,
+      en: <div><p>Coffee machine with capsules included in every room.</p><img src="/cialde.jpg" alt="Coffee machine instructions" className="mt-3 max-w-full border rounded" /></div>,
+      de: <div><p>Kaffeemaschine mit Kapseln in jedem Zimmer enthalten.</p><img src="/cialde.jpg" alt="Kaffeemaschine Anleitung" className="mt-3 max-w-full border rounded" /></div>
+    }
+  },
+  {
+    nome: 'Climatizzatore',
+    icona: <Snowflake size={18} />,
+    dettagli: {
+      it: 'Aria condizionata regolabile autonomamente.',
+      en: 'Individually adjustable air conditioning.',
+      de: 'Individuell einstellbare Klimaanlage.'
+    }
+  },
+  {
+    nome: 'Riscaldamento autonomo',
+    icona: <Bath size={18} />,
+    dettagli: {
+      it: 'Sistema di riscaldamento regolabile autonomamente.',
+      en: 'Individually adjustable heating system.',
+      de: 'Individuell regulierbares Heizsystem.'
+    }
+  },
+  {
+    nome: 'Sky TV',
+    icona: <Tv size={18} />,
+    dettagli: {
+      it: 'Ampia scelta di canali Sky.',
+      en: 'Wide selection of Sky channels.',
+      de: 'Große Auswahl an Sky-Kanälen.'
+    }
+  },
+  {
+    nome: 'Cassaforte',
+    icona: <LockKeyhole size={18} />,
+    dettagli: {
+      it: <div><p>Cassaforte elettronica per custodire oggetti personali.</p><p className="mt-2">A cassaforte aperta, premere <strong>R</strong> e inserire un codice di 4 cifre a scelta. La cassaforte emetterà un suono.</p><p>Ripetere il codice per confermare: la cassaforte si chiuderà.</p><p>Per riaprirla, inserire lo stesso codice. <strong>La lettera R va usata solo una volta, la prima volta per impostare il codice.</strong></p></div>,
+      en: <div><p>Electronic safe to store personal items.</p><p className="mt-2">When the safe is open, press <strong>R</strong> and enter a 4-digit code of your choice. The safe will beep.</p><p>Repeat the code to confirm: the safe will lock.</p><p>To reopen, enter the same code. <strong>The R key is only needed the first time.</strong></p></div>,
+      de: <div><p>Elektronischer Safe zur Aufbewahrung persönlicher Gegenstände.</p><p className="mt-2">Bei geöffneter Tür drücken Sie <strong>R</strong> und geben Sie einen 4-stelligen Code ein. Der Safe gibt einen Ton ab.</p><p>Wiederholen Sie den Code zur Bestätigung: Der Safe schließt sich.</p><p>Zum Öffnen geben Sie denselben Code ein. <strong>Die Taste R wird nur beim ersten Mal benötigt.</strong></p></div>
+    }
+  },
+  {
+    nome: 'Telefono',
+    icona: <Phone size={18} />,
+    dettagli: {
+      it: 'Telefono diretto con reception e chiamate esterne. Per contattare la reception, comporre il numero 9.',
+      en: 'Direct phone line with reception and external calls. To reach reception, dial 9.',
+      de: 'Direkte Telefonverbindung zur Rezeption und für externe Anrufe. Für die Rezeption wählen Sie die 9.'
+    }
+  },
+  {
+    nome: 'Wi-fi',
+    icona: <Wifi size={18} />,
+    dettagli: {
+      it: <div><p>Connessione Wi-Fi gratuita ad alta velocità.</p><div className="mt-2"><span className="font-semibold">Password: </span><span className="bg-gray-200 px-2 py-1 rounded select-text" id="wifi-password">miramare25</span><button className="ml-2 text-sm text-blue-600 underline" onClick={() => { navigator.clipboard.writeText('miramare25'); alert('Password copiata!'); }}>Copia</button></div></div>,
+      en: <div><p>Free high-speed Wi-Fi connection.</p><div className="mt-2"><span className="font-semibold">Password: </span><span className="bg-gray-200 px-2 py-1 rounded select-text">miramare25</span><button className="ml-2 text-sm text-blue-600 underline" onClick={() => { navigator.clipboard.writeText('miramare25'); alert('Password copied!'); }}>Copy</button></div></div>,
+      de: <div><p>Kostenlose High-Speed-WLAN-Verbindung.</p><div className="mt-2"><span className="font-semibold">Passwort: </span><span className="bg-gray-200 px-2 py-1 rounded select-text">miramare25</span><button className="ml-2 text-sm text-blue-600 underline" onClick={() => { navigator.clipboard.writeText('miramare25'); alert('Passwort kopiert!'); }}>Kopieren</button></div></div>
+    }
+  }
+];
+  return (
+    <div className="font-sans scroll-smooth">
+      <header className="bg-white p-4 text-center">
+  
+  <div className="flex flex-col items-center max-w-6xl mx-auto">
+    <img src="/logo_miramare_celeste-300x102.png" alt="Hotel Miramare Logo" className="max-h-20 hover:opacity-80 transition" />
+    <h1 className="text-2xl font-bold text-blue-700 mt-2">Hotel Directory</h1>
+    
+    <div className="flex gap-2 mt-2">
+      <button onClick={() => setLang('it')} title="Italiano">
+        <img src="/flags/it.png" alt="Italiano" className="w-6 h-4 object-cover rounded-sm shadow border" />
+      </button>
+      <button onClick={() => setLang('en')} title="English">
+        <img src="/flags/gb.png" alt="English" className="w-6 h-4 object-cover rounded-sm shadow border" />
+      </button>
+      <button onClick={() => setLang('de')} title="Deutsch">
+        <img src="/flags/de.png" alt="Deutsch" className="w-6 h-4 object-cover rounded-sm shadow border" />
+      </button>
+    </div>
+  </div>
+  </header>
+<nav className="sticky top-0 bg-blue-600 text-white p-2">
+        <ul className="flex flex-wrap justify-around text-sm">
+          <li className="m-1"><a href="#servizi-camera">Servizi in Camera</a></li>
+          <li className="m-1"><a href="#servizi-hotel">Servizi dell'Hotel</a></li>
+          <li className="m-1"><a href="#canali-tv">Canali TV</a></li>
+          <li className="m-1"><a href="#contatti">Contatti</a></li>
+        </ul>
+      </nav>
+
+      <div className="p-6 bg-white text-center">
+  <p className="text-sm text-gray-700 max-w-3xl mx-auto">
+    {lang === 'it' && (<>
+      Benvenuti nella directory digitale del nostro hotel. Qui troverete tutte le informazioni utili per il vostro soggiorno: servizi in camera, servizi dell’hotel, orari, canali TV e contatti. Tutto sempre a portata di mano, sul vostro dispositivo.
+    </>)}
+    {lang === 'en' && (<>
+      Welcome to our hotel's digital directory. Here you will find all the useful information for your stay: room services, hotel services, schedules, TV channels, and contact details. Always at your fingertips, on your device.
+    </>)}
+    {lang === 'de' && (<>
+      Willkommen im digitalen Verzeichnis unseres Hotels. Hier finden Sie alle wichtigen Informationen für Ihren Aufenthalt: Zimmerausstattung, Hoteldienste, Zeiten, TV-Kanäle und Kontaktdaten. Alles bequem auf Ihrem Gerät verfügbar.
+    </>)}
+  </p>
+</div>
+
+<section id="servizi-camera" className="p-6 bg-gray-100">
+        <h2 className="text-xl font-bold">{translations[lang].camera}</h2>
+        <ul className="mt-3">
+          {serviziCamera.map((servizio, idx) => (
+            <li key={idx} className="mt-2">
+              <button
+                className="text-blue-600 underline flex items-center gap-2"
+                onClick={() => setOpenServiceCamera(openServiceCamera === idx ? null : idx)}
+              >
+                <Icon>{servizio.icona}</Icon>{servizio.nome}
+              </button>
+              {openServiceCamera === idx && <div className="ml-6 mt-1">{servizio.dettagli[lang]}</div>}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="servizi-hotel" className="p-6">
+        <h2 className="text-xl font-bold">{translations[lang].hotel}</h2>
+        <ul className="mt-3">
+          {serviziHotel.map((servizio, idx) => (
+            <li key={idx} className="mt-2">
+              <button
+                className="text-blue-600 underline flex items-center gap-2"
+                onClick={() => setOpenServiceHotel(openServiceHotel === idx ? null : idx)}
+              >
+                <Icon>{servizio.icona}</Icon>{servizio.nome}
+              </button>
+              {openServiceHotel === idx && <p className="ml-6 mt-1">{servizio.dettagli[lang]}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="canali-tv" className="p-6 bg-gray-100 overflow-auto">
+        <h2 className="text-xl font-bold">{translations[lang].tv}</h2>
+        <table className="mt-3 table-auto w-full text-sm">
+          <thead>
+            <tr className="bg-blue-200">
+              <th className="border px-2 py-1">Numero</th>
+              <th className="border px-2 py-1">Canale</th>
+              <th className="border px-2 py-1">Lingua</th>
+            </tr>
+          </thead>
+          <tbody>
+            {canaliTV.map((canale, idx) => (
+              <tr key={idx}>
+                <td className="border px-2 py-1">{canale.numero}</td>
+                <td className="border px-2 py-1">{canale.nome}</td>
+                <td className="border px-2 py-1">{canale.lingua}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section id="contatti" className="p-6 bg-gray-100 text-center">
+        <h2 className="text-xl font-bold">{translations[lang].contact}</h2>
+        <p className="mt-3">
+          Lungomare Trieste 49, 33054 Lignano Sabbiadoro (UD)<br />
+          Tel. 0431 71260 | WhatsApp 393 1109321<br />
+          Email: info@miramare.com
+        </p>
+      </section>
+
+      <footer className="bg-blue-600 text-white text-center p-3">
+        © 2025 Hotel Miramare
+      </footer>
+    </div>
+  );
+}
