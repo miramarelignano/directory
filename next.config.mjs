@@ -7,10 +7,7 @@ const nextConfig = {
   // trailingSlash serve all’export statico
   trailingSlash: true,
   // abilita l’export statico se usi App Router
-  output: 'export',
-  images: {
-    loader: 'default',
-    // path dinamico in base all’ambiente
+      // path dinamico in base all’ambiente
     path: `${isProd ? '/test' : ''}/_next/image`,
   },
   eslint: {
